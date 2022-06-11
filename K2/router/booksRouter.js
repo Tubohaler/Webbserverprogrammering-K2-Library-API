@@ -9,4 +9,4 @@ booksRouter.put("/books/:id", booksController.changeBook);
 booksRouter.patch("/books/:id", booksController.editBook);
 booksRouter.delete("/books/:id", booksController.deleteBook);
 
-module.exports = { booksRouter };
+module.exports = booksRouter;

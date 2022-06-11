@@ -5,7 +5,7 @@ const db = new sqlite3.Database("./db.sqlite", (error) => {
     console.error(error.message);
     throw error;
   }
-  console.log("yay, ansluten till bokbussen!");
+  console.log("Were talking now!");
 
   //   SQL-statement för tabell books, innehåller id, titel, författare och genre.
   const statement = `
