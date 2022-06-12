@@ -8,10 +8,10 @@ function getAllBooks() {
     db.all(sql, (error, rows) => {
       if (error) {
         console.error(error.message);
-        res.status(400);
+        // res.status(400);
         reject(error);
       }
-      res.status(200);
+      // res.status(200);
       resolve(rows);
     });
   });
@@ -24,10 +24,10 @@ function getBook(id) {
     db.get(sql, id, (error, rows) => {
       if (error) {
         console.error(error.message);
-        res.status(400);
+        // res.status(400);
         reject(error);
       }
-      res.status(200);
+      // res.status(200);
       resolve(rows);
     });
   });
@@ -49,10 +49,11 @@ function addBook(book) {
   });
 }
 
-function patchBook(id, book) {
-  const sql = `UPDATE books SET title = '${book}' WHERE id = ${id}`;
+function changeBook(id, book) {
+  const sql = `UPDATE books SET title = '${book.title}', author = '${book.author}', genre = '${book.genre}' WHERE id = ${id}`;
+
   return new Promise((resolve, reject) => {
-    db.run(sql, [book.title], (err) => {
+    db.run(sql, (err) => {
       if (err) {
         console.error(err.message);
         res.status(400);
@@ -64,11 +65,11 @@ function patchBook(id, book) {
   });
 }
 
-function putBook(id, book) {
-  const sql = `UPDATE books SET title = '${book.title}', author = '${book.author}', genre = '${book.genre}' WHERE id = ${id}`;
-
+function editBook(id, book) {
+  const sql = `UPDATE books SET title = '${book}' WHERE id = ${id}`;
   return new Promise((resolve, reject) => {
-    db.run(sql, (err) => {
+    db.run(sql, [book.title], (err) => {
+      // ett fel här
       if (err) {
         console.error(err.message);
         res.status(400);
@@ -97,10 +98,10 @@ function deleteBook(id) {
 }
 
 module.exports = {
-  getAllBooks,
   getBook,
+  getAllBooks,
   addBook,
+  changeBook,
+  editBook,
   deleteBook,
-  patchBook,
-  putBook,
 };
