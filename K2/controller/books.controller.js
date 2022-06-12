@@ -1,10 +1,10 @@
-// Models:
 const books = require("../models/books.model");
 
 async function getBooks(req, res) {
   const result = await books.getAllBooks();
 
   res.json(result);
+  console.log(req);
 }
 
 async function getBook(req, res) {
