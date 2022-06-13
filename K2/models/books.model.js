@@ -8,10 +8,8 @@ function getAllBooks() {
     db.all(sql, (error, rows) => {
       if (error) {
         console.error(error.message);
-        // res.status(400);
         reject(error);
       }
-      // res.status(200);
       resolve(rows);
     });
   });
@@ -24,10 +22,8 @@ function getBook(id) {
     db.get(sql, id, (error, rows) => {
       if (error) {
         console.error(error.message);
-        // res.status(400);
         reject(error);
       }
-      // res.status(200);
       resolve(rows);
     });
   });
@@ -86,7 +82,6 @@ function deleteBook(id) {
 
   return new Promise((resolve, reject) => {
     db.get(sql, id, (error) => {
-      // if ? !== id :?
       if (error) {
         console.error(error.message);
         res.status(400);
