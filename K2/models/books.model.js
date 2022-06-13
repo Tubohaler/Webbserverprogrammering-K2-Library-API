@@ -65,24 +65,25 @@ function changeBook(id, book) {
   });
 }
 
-function editBook(id, book) {
-  const sql = `UPDATE books SET title = '${book}' WHERE id = ${id}`;
+function editBook(id, title, author, genre) {
+  const sql = `UPDATE books SET title = COALESCE(?,title),author = COALESCE(?,author), genre = COALESCE(?,genre) WHERE id = ?`;
+
   return new Promise((resolve, reject) => {
-    db.run(sql, [book.title], (err) => {
-      // ett fel här
+    db.run(sql, [title, author, genre, id], function (err) {
       if (err) {
         console.error(err.message);
         res.status(400);
         reject(err);
       }
       res.status(200);
-      resolve();
+      resolve(this);
     });
   });
 }
 
 function deleteBook(id) {
   const sql = "DELETE FROM books WHERE id = ?";
+
   return new Promise((resolve, reject) => {
     db.get(sql, id, (error) => {
       // if ? !== id :?
@@ -91,7 +92,7 @@ function deleteBook(id) {
         res.status(400);
         reject(error);
       }
-      res.status(204);
+      res.status(200);
       resolve();
     });
   });

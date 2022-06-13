@@ -4,12 +4,11 @@ async function getBooks(req, res) {
   const result = await books.getAllBooks();
 
   res.json(result);
-  console.log(req);
 }
 
 async function getBook(req, res) {
-  const wantedBook = req.params.id;
-  const foundBook = await books.getBook(wantedBook);
+  const id = req.params.id;
+  const foundBook = await books.getBook(id);
 
   res.json(foundBook);
 }
@@ -33,29 +32,37 @@ async function addBook(req, res) {
 
 async function changeBook(req, res) {
   const { title, author, genre } = req.body;
-  const wantedBook = req.params.id;
+  const id = req.params.id;
   const changeBook = {
     title,
     author,
     genre,
   };
 
-  await books.changeBook(wantedBook, changeBook);
+  await books.changeBook(id, changeBook);
   res.json(changeBook);
 }
 
 async function editBook(req, res) {
-  const { title } = req.body;
+  const { title, author, genre } = req.body;
 
-  const wantedBook = req.params.id;
-  const editBook = await books.editBook(wantedBook, title);
+  if (!title && !author && !genre) {
+    return res.status(400).json({ error: "Bad request!" });
+  }
+
+  const id = req.params.id;
+  const editBook = await books.editBook(id, title, author, genre);
 
   res.json(editBook);
 }
 
 async function deleteBook(req, res) {
-  const wantedBook = req.params.id;
-  const deletedBook = await books.deleteBook(wantedBook);
+  const id = req.params.id;
+  const result = await books.getBook(id);
+  if (!result) {
+    return res.status(404).json({ error: `${id} Does not exist!` });
+  }
+  const deletedBook = await books.deleteBook(id);
 
   res.json(deletedBook);
 }
