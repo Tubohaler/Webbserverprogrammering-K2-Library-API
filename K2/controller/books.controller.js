@@ -26,7 +26,7 @@ async function addBook(req, res) {
   const { title, author, genre } = req.body;
 
   if (!title || !author || !genre) {
-    return res.status(400).send("Bad request.");
+    return res.status(400).send("Send the proper info; title/ author/ genre.");
   }
   const newBook = {
     title,
@@ -63,11 +63,13 @@ async function editBook(req, res) {
   const { title, author, genre } = req.body;
 
   if (!title && !author && !genre) {
-    return res.status(400).json({ error: "Bad request!" });
+    return res
+      .status(400)
+      .json({ error: "Vital info missing. Please add title/author/genre." });
   }
 
   const id = req.params.id;
-  const editBook = await books.editBook(id, title, author, genre);
+  await books.editBook(id, title, author, genre);
 
   res.status(200).json({ message: "Book edit completed.", updated: req.body });
 }
@@ -76,9 +78,11 @@ async function deleteBook(req, res) {
   const id = req.params.id;
   const result = await books.getBook(id);
   if (!result) {
-    return res.status(404).json({ error: `${id} Does not exist!` });
+    return res
+      .status(404)
+      .json({ error: `A book with this ID ${id} does not exist!` });
   }
-  const deletedBook = await books.deleteBook(id);
+  await books.deleteBook(id);
 
   res.status(200).json({ message: `Book now erased.` });
 }

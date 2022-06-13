@@ -1,5 +1,5 @@
 const res = require("express/lib/response");
-const db = require("../database");
+const db = require("../config/database");
 
 function getAllBooks() {
   const sql = "SELECT * FROM books";
@@ -36,10 +36,9 @@ function addBook(book) {
     db.run(sql, [book.title, book.author, book.genre], (err) => {
       if (err) {
         console.error(err.message);
-        res.status(400);
+        res.status(404);
         reject(err);
       }
-      res.status(201);
       resolve();
     });
   });
@@ -55,7 +54,6 @@ function changeBook(id, book) {
         res.status(400);
         reject(err);
       }
-      res.status(200);
       resolve();
     });
   });
@@ -71,8 +69,7 @@ function editBook(id, title, author, genre) {
         res.status(400);
         reject(err);
       }
-      res.status(200);
-      resolve(this);
+      resolve();
     });
   });
 }
@@ -87,7 +84,6 @@ function deleteBook(id) {
         res.status(400);
         reject(error);
       }
-      res.status(200);
       resolve();
     });
   });

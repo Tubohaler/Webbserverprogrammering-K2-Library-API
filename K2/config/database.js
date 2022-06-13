@@ -22,11 +22,14 @@ const db = new sqlite3.Database("./db.sqlite", (error) => {
     const insert = `INSERT INTO books (title, author, genre)
       VALUES (?, ?, ?)`;
 
-    db.run(insert, ["Bibeln", "Gubben", "Skräck"], (error) => {
-      if (error) {
-        console.error(error);
-      }
-    });
+    db.run(insert, ["Bibeln", "Gubben", "Skräck"]),
+      db.run(insert, ["Dhammapada", "Skalle Per", "Doku"]),
+      db.run(insert, ["Tao Te Ching", "Bruce Lee", "Action"]),
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      };
   });
 });
 module.exports = db;

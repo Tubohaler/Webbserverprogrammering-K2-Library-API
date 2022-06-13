@@ -2,9 +2,7 @@ const express = require("express");
 const app = express();
 const port = 5000;
 
-const booksController = require("./controller/books.controller");
-const booksRouter = require("./router/booksRouter.js");
-const books = require("./models/books.model");
+const booksRouter = require("./router/booksRouter.router.js");
 
 app.use(express.json());
 
